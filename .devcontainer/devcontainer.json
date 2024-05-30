@@ -9,7 +9,11 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"onecentlin.laravel-extension-pack"
+				"onecentlin.laravel-extension-pack",
+				"Porifa.laravel-intelephense",
+				"bmewburn.vscode-intelephense-client",
+				"tinkerun.tinkerun-vscode",
+				"bradlc.vscode-tailwindcss"
 			],
 			"settings": {
 					"php.format.codeStyle": "PSR-2"

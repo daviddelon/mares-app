@@ -9,25 +9,11 @@ Route::get('/', function () {
     return view('home');
 });
 
-//Route::resource(('mares'), MareController::class);
-
-
 Route::get('/mares', [MareController::class, 'index']);
-Route::get('/mares/create', [MareController::class,'create'])
-    ->middleware('auth');
-Route::get('/mares/{mare}', [MareController::class,'show']);
 
-Route::post('/mares',[MareController::class, 'store'])
-    ->middleware('auth');
-
-Route::get('/mares/{mare}/edit',[MareController::class, 'edit'])
-    ->middleware('auth');
-
-Route::patch('/mares/{mare}',[MareController::class, 'update'])
-    ->middleware('auth');
-
-Route::delete('/mares/{mare}',[MareController::class, 'destroy'])
-    ->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('mares', MareController::class)->except(['index']);
+});
 
 
 Route::get('/register', [RegisteredUserController::class,'create']);
