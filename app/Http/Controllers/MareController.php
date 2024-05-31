@@ -11,7 +11,7 @@ class MareController extends Controller
     public function index()
     {
 
-        $mares = Mare::with('user')->latest()->paginate(3);
+        $mares = Mare::with('user')->latest()->paginate(3); // prevent lazy loading
 
         return view('mares.index', [
             'mares' => $mares
@@ -47,7 +47,7 @@ class MareController extends Controller
         Mare::create([
             'latitude' => request('latitude'),
             'longitude' => request('longitude'),
-            'user_id' => 1
+            'user_id' => Auth()->id()
         ]);
 
         return redirect('/mares');
@@ -56,6 +56,7 @@ class MareController extends Controller
 
     public function edit(Mare $mare)
     {
+
 
         return view('mares.edit', [
             'mare' => $mare

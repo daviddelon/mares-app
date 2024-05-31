@@ -36,13 +36,13 @@
                     </div>
                     <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         @guest
-                        <x-nav-link href="/login" :active="request()->is('login')">Connexion</x-nav-link>
+                        <x-nav-link href="/login" :active="request()->is('login')">Se connecter</x-nav-link>
                         <x-nav-link href="/register" :active="request()->is('register')">Créer un compte</x-nav-link>
                         @endguest
                         @auth
                         <form method="POST" action="/logout">
                             @csrf
-                            <x-form-button>Log Out</x-form-button>
+                            <x-form-button>{{ auth()->user()->name }} : Se déconnecter</x-form-button>
                         </form>
                         @endauth
                     </div>
