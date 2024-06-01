@@ -19,8 +19,11 @@ class RegisteredUserController extends Controller
         $attributes = request()->validate([
             'name' => ['required'],
             'email' => ['required','email'],
-            'password' => ['required',Password::min(6),'confirmed'], // look for field password_confirmation
+            'password' => ['required',Password::min(6),'confirmed'] // look for field password_confirmation
         ]);
+
+
+
 
         $user=User::create($attributes);
 

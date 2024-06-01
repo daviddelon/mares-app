@@ -1,5 +1,18 @@
 <?php
 
+/* TODO :  Unit ?
+
+it('belongs to an employer', function () {
+    $employer = Employer::factory()->create();
+    $job = Job::factory()->create([
+        'employer_id' => $employer->id,
+    ]);
+
+    expect($job->employer->is($employer))->toBeTrue();
+});
+
+*/
+
 namespace Tests\Feature;
 
 use App\Models\Mare;

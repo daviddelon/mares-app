@@ -4,6 +4,7 @@ use App\Http\Controllers\MareController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::get('/', function () {
     return view('home');
@@ -17,7 +18,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/register', [RegisteredUserController::class,'create']);
-Route::post('/register', [RegisteredUserController::class,'store']);
+Route::post('/register', [RegisteredUserController::class,'store'])->middleware(ProtectAgainstSpam::class);
 
 
 Route::get('/login', [SessionController::class,'create'])->name('login'); // Named because middleware auth need it;

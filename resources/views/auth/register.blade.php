@@ -1,27 +1,13 @@
 <x-layout>
     <x-slot:heading>
-       Register
+        Register
     </x-slot:heading>
 
-    <!--
-  This example requires some changes to your config:
 
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
     <form method="POST" action="/register">
 
         @csrf
-
-        {!! app('captcha')->display() !!}
+        @honeypot
 
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
@@ -30,7 +16,7 @@
                     <x-form-field>
                         <x-form-label for="name">Name</x-form-label>
                         <div class="mt-2">
-                            <x-form-input type="text" name="name" id="name" required></x-form-input>
+                            <x-form-input type="text" name="name" id="name" :value="old('name')" required></x-form-input>
                             <x-form-error name='name'></x-form-error>
                         </div>
                     </x-form-field>
@@ -38,7 +24,7 @@
                     <x-form-field>
                         <x-form-label for="email">Email</x-form-label>
                         <div class="mt-2">
-                            <x-form-input type="email" name="email" id="email" required></x-form-input>
+                            <x-form-input type="email" name="email" id="email" :value="old('email')" required></x-form-input>
                             <x-form-error name='email'></x-form-error>
                         </div>
                     </x-form-field>
