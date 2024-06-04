@@ -13,8 +13,16 @@ class MareController extends Controller
 
         $mares = Mare::with('user')->latest()->paginate(3); // prevent lazy loading
 
+        $markers = Mare::all()->map(function ($event, $key) {
+
+            return [
+                    'latlng' => [$event->latitude, $event->longitude],
+
+                ];
+        })->values();
+
         return view('mares.index', [
-            'mares' => $mares
+            'mares' => $mares,'markers'=>$markers
         ]);
     }
 
