@@ -6,14 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Mares</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
-   integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
-
-<script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
-   integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s=" crossorigin=""></script>
 
 
 
@@ -83,27 +79,23 @@
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
 
 
-    <div id="map"></div>
 
-    <script>
+    <script type="module">
 
         var markers = {!! json_encode($markers) !!}
 
-
-
         var map = L.map('map').setView([43.78, 3.76], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map)
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
 
         markers.map( function(item) {
 
-            marker = L.marker(item.latlng).addTo(map)
+            L.marker(item.latlng).addTo(map);
 
-        })
+        });
 
     </script>
+
+<div id="map"></div>
 
 
     <div class="space-y-4">
