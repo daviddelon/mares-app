@@ -3,6 +3,10 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+
+// Bug fix for wrong image URL : https://github.com/Leaflet/Leaflet/issues/4968#issuecomment-264311098
+
+import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
