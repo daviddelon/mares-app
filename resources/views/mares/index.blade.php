@@ -19,6 +19,8 @@
             L.marker(item.latlng).addTo(map);
 
         });
+
+
     </script>
 
     <div class="h-svh" id="map"></div>

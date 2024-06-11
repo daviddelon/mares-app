@@ -5,6 +5,51 @@
     </x-slot:heading>
 
 
+    <script type="module">
+
+
+        var map = L.map('map').setView([43.78, 3.76], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var theMarker;
+
+        map.on('click', function(e) {
+            var latitude = e.latlng.lat.toString().substring(0, 15);
+            var longitude = e.latlng.lng.toString().substring(0, 15);
+
+            if (theMarker != undefined) {
+                map.removeLayer(theMarker);
+            };
+
+
+            theMarker = L.marker([latitude, longitude], { 'draggable': true } ).addTo(map);
+
+
+            theMarker.on('move', function(e) {
+                latitude = e.latlng.lat.toString().substring(0, 15);
+                longitude = e.latlng.lng.toString().substring(0, 15);
+
+                document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
+                document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
+
+
+            });
+
+            document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
+            document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
+
+
+
+        });
+
+    </script>
+
+
+    <div class="h-96" id="map"></div>
+
     <form method="POST" action="/mares">
 
         @csrf
