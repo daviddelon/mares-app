@@ -29,8 +29,21 @@ class MareController extends Controller
     public function create()
     {
 
+        $markers = Mare::all()->map(function ($event, $key) {
 
-        return view('mares.create');
+            return [
+                    'latlng' => [$event->latitude, $event->longitude],
+
+                ];
+        })->values();
+
+
+
+        return view('mares.create', [
+            'markers'=>$markers
+        ]);
+
+
     }
 
     public function show(Mare $mare)

@@ -6,20 +6,8 @@
 
 
     <script type="module">
-        var markers = {!! json_encode($markers) !!}
 
-        var map = L.map('map').setView([43.78, 3.76], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        markers.map(function(item) {
-
-            L.marker(item.latlng).addTo(map);
-
-        });
-
+    <x-map :markers=$markers></x-map>
 
     </script>
 
