@@ -2,16 +2,17 @@
 
 namespace Tests\Browser;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class ExampleTest extends DuskTestCase
+class LeafletMapTest extends DuskTestCase
 {
+
+
     /**
      * A basic browser test example.
      */
-    public function testBasicExample(): void
+    public function testdisplaymarker(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/mares')

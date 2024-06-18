@@ -18,12 +18,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'David Delon',
+            'email' => 'david.delon@clapas.net',
+            'password' => 'password'
         ]);
 
 
-        $mares=Mare::factory(3)->create();
-        Tag::factory(3)->hasAttached($mares)->create();
+        //$mares=Mare::factory(3)->create();
+        //Tag::factory(3)->hasAttached($mares)->create();
+        $this->call(MaresTableSeeder::class);
     }
 }
