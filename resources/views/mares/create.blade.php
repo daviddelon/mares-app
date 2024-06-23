@@ -46,7 +46,7 @@
 
     <div class="h-96" id="map"></div>
 
-    <form method="POST" action="/mares">
+    <form method="POST" action="/mares" enctype="multipart/form-data">
 
         @csrf
 
@@ -67,6 +67,15 @@
                             <div class="mt-2">
                                 <x-form-input type="text" name="longitude" id="longitude" placeholder="3.23445" required></x-form-input>
                                 <x-form-error name='longitude'></x-form-error>
+                            </div>
+                        </x-form-field>
+
+
+                        <x-form-field>
+                            <x-form-label for="Photo">Photo</x-form-label>
+                            <div class="mt-2">
+                                <x-form-input type="file" name="image" id="image"></x-form-input>
+                                <x-form-error name='image'></x-form-error>
                             </div>
                         </x-form-field>
 

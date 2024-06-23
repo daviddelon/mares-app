@@ -5,22 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mare extends Model
+class Image extends Model
 {
-
     use HasFactory;
 
-    protected $fillable = ['latitude','longitude', 'user_id'];
+    protected $fillable = ['path','user_id','mare_id'];
 
     public function user () {
 
         return $this->belongsTo(User::class);
     }
 
-    public function images() {
-        return $this->hasMany(Image::class);
+    public function mare () {
+
+        return $this->belongsTo(Mare::class);
     }
-
-
 
 }

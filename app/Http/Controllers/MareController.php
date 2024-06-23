@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mare;
+use Illuminate\Validation\Rules\File;
 
 class MareController extends Controller
 {
@@ -13,13 +14,24 @@ class MareController extends Controller
 
         $mares = Mare::with('user')->latest()->paginate(3); // prevent lazy loading
 
-        $markers = Mare::all()->map(function ($event, $key) {
+
+
+        $markers = Mare::with(['user','images'])->get()->map(function ($mare) {
+
+
+            $path='';
+            foreach ($mare->images as $image) {
+                $path=$image->path;
+            }
 
             return [
-                    'latlng' => [$event->latitude, $event->longitude],
-
+                    'latlng' => [$mare->latitude, $mare->longitude],
+                    'content' => $mare->user->name,
+                    'image' => $path
                 ];
         })->values();
+
+
 
         return view('mares.index', [
             'mares' => $mares,'markers'=>$markers
@@ -29,13 +41,16 @@ class MareController extends Controller
     public function create()
     {
 
-        $markers = Mare::all()->map(function ($event, $key) {
+        $markers = Mare::with('user')->get()->map(function ($mare) {
 
             return [
-                    'latlng' => [$event->latitude, $event->longitude],
+                    'latlng' => [$mare->latitude, $mare->longitude],
+                    'content' => $mare->user->name
+
 
                 ];
         })->values();
+
 
 
 
@@ -61,14 +76,15 @@ class MareController extends Controller
         request()->validate(
             [
                 'latitude' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,7})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
-                'longitude' => ['required', 'regex:/^(\+|-)?(?:180(?:(?:\.0{1,7})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,7})?))$/']
+                'longitude' => ['required', 'regex:/^(\+|-)?(?:18,0(?:(?:\.0{1,7})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
             ]
         );
+
 
         Mare::create([
             'latitude' => request('latitude'),
             'longitude' => request('longitude'),
-            'user_id' => Auth()->id()
+            'user_id' => Auth()->id(),
         ]);
 
         return redirect('/mares');
