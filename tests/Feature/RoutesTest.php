@@ -1,24 +1,18 @@
 <?php
 
-/* TODO :  Unit ?
-
-it('belongs to an employer', function () {
-    $employer = Employer::factory()->create();
-    $job = Job::factory()->create([
-        'employer_id' => $employer->id,
-    ]);
-
-    expect($job->employer->is($employer))->toBeTrue();
-});
-
-*/
 
 namespace Tests\Feature;
 
+
 use App\Models\Mare;
+use App\Models\Picture;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+
+use function PHPSTORM_META\map;
 
 class RoutesTest extends TestCase
 {
@@ -96,6 +90,36 @@ class RoutesTest extends TestCase
     }
 
 
+    public function test_picture_crud_is_working() {
+
+
+
+         $user = User::factory()->create();
+
+
+         // Store : mare + picture created, picture non mandatory
+
+         Storage::fake('pictures');
+         $file = UploadedFile::fake()->image('mare.jpg');
+
+
+         $response = $this->actingAs($user)->post('/mares', ['latitude' => '6.54321','longitude'=>'1.23456','picture'=> $file]);
+         $response->assertRedirect('/mares');
+
+         $this->assertDatabaseHas(Mare::class, ['latitude' => '6.54321','longitude'=>'1.23456']);
+         $this->assertDatabaseHas(Picture::class, ['path'=>'pictures/'.$file->hashName()]);
+
+        // I don't undestand why the file is not automaticly deleted as we are using fake storage.
+
+         Storage::delete('pictures/'.$file->hashName());
+
+         $file = UploadedFile::fake()->image('mare.php');
+
+         $response = $this->actingAs($user)->post('/mares', ['latitude' => '6.54321','longitude'=>'1.23456','picture'=> $file]);
+         $response->assertSessionHasErrors(['picture']);
+
+
+    }
 
 
 

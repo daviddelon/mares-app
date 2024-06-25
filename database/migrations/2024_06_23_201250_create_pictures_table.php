@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('pictures', function (Blueprint $table) {
             $table->id();
             $table->string('path');
+            $table->dateTime('observed_at');
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Mare::class)->constrained();
             $table->timestamps();
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('pictures');
     }
 };

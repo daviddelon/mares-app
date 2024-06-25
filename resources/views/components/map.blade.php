@@ -17,8 +17,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 markers.map(function(item) {
 
-    if (typeof item.image != '') {
-        L.marker(item.latlng).addTo(map).bindPopup('<img src="storage/'+item.image+'"/>');
+    if (typeof item.picture != '') {
+        L.marker(item.latlng).addTo(map).bindPopup('<a href="/mares/'+item.mare_id+'"><img src="storage/'+item.picture+'"/></a>');
     }
 
 });

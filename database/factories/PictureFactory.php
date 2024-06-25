@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class ImageFactory extends Factory
+class PictureFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,7 +22,8 @@ class ImageFactory extends Factory
 
             'path' => fake()->filePath(),
             'user_id' => User::factory(),
-            'mare_id' => Mare::factory()
+            'mare_id' => Mare::factory(),
+            'observed_at' => fake()->dateTime
 
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mare;
+use App\Models\Picture;
 use Illuminate\Validation\Rules\File;
 
 class MareController extends Controller
@@ -16,18 +17,19 @@ class MareController extends Controller
 
 
 
-        $markers = Mare::with(['user','images'])->get()->map(function ($mare) {
+        $markers = Mare::with(['user','pictures'])->get()->map(function ($mare) {
 
 
             $path='';
-            foreach ($mare->images as $image) {
-                $path=$image->path;
+            foreach ($mare->pictures as $picture) {
+                $path=$picture->path;
             }
 
             return [
                     'latlng' => [$mare->latitude, $mare->longitude],
                     'content' => $mare->user->name,
-                    'image' => $path
+                    'mare_id' => $mare->id,
+                    'picture' => $path
                 ];
         })->values();
 
@@ -54,6 +56,8 @@ class MareController extends Controller
 
 
 
+
+
         return view('mares.create', [
             'markers'=>$markers
         ]);
@@ -63,6 +67,8 @@ class MareController extends Controller
 
     public function show(Mare $mare)
     {
+
+        $mare = Mare::with(['pictures.user'])->find($mare->id);
 
         return view('mares.show', [
             'mare' => $mare
@@ -77,15 +83,29 @@ class MareController extends Controller
             [
                 'latitude' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,7})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
                 'longitude' => ['required', 'regex:/^(\+|-)?(?:18,0(?:(?:\.0{1,7})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
+                'picture' => [File::types(['png', 'jpg'])],
             ]
         );
 
 
-        Mare::create([
+        $mare=Mare::create([
             'latitude' => request('latitude'),
             'longitude' => request('longitude'),
             'user_id' => Auth()->id(),
         ]);
+
+        if (request()->hasFile('picture')) {
+            $picturePath = request()->picture->store('pictures');
+            Picture::create([
+                'path' => $picturePath,
+                'user_id' => Auth()->id(),
+                'mare_id' => $mare->id,
+                'observed_at' => now()
+            ]);
+        }
+
+
+
 
         return redirect('/mares');
     }
@@ -93,6 +113,7 @@ class MareController extends Controller
 
     public function edit(Mare $mare)
     {
+
 
 
         return view('mares.edit', [

@@ -1,5 +1,7 @@
 <x-layout>
 
+    <x-flatpickr::style />
+
     <x-slot:heading>
         Création
     </x-slot:heading>
@@ -70,12 +72,15 @@
                             </div>
                         </x-form-field>
 
+                        <x-form-field>
+                        <x-flatpickr />
+                        </x-form-field>
 
                         <x-form-field>
                             <x-form-label for="Photo">Photo</x-form-label>
                             <div class="mt-2">
-                                <x-form-input type="file" name="image" id="image"></x-form-input>
-                                <x-form-error name='image'></x-form-error>
+                                <x-form-input type="file" name="picture" id="picture"></x-form-input>
+                                <x-form-error name='picture'></x-form-error>
                             </div>
                         </x-form-field>
 
@@ -90,10 +95,10 @@
         <div class="mt-6 flex items-center justify-end gap-x-6">
             <a  href="/mares" class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
             <button type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
+                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Créer</button>
         </div>
     </form>
 
 
-
+<x-flatpickr::script />
 </x-layout>

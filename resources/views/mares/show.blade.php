@@ -5,17 +5,18 @@
         Mare
     </x-slot:heading>
 
-    {{ $mare->id}}  au coordonnées {{ $mare->latitude }}, {{  $mare->longitude }} observée par {{ $mare->user->name}} avec les tags :
+    {{ $mare->id}}  au coordonnées {{ $mare->latitude }}, {{  $mare->longitude }} observée par {{ $mare->user->name}}
 
     <ul>
-    @foreach ($mare->tags as $tag)
 
+    @foreach ( $mare->pictures as $picture)
         <li>
-        {{  $tag->name }}
+            {{ $picture->user->name }}<img src="/storage/{{ $picture->path }}"></img>
         </li>
 
     @endforeach
     </ul>
+
 
     @auth
     <p class="mt-6">
