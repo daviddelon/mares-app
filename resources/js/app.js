@@ -15,3 +15,5 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
+import { map_index } from './map';
+window.map_index = map_index;

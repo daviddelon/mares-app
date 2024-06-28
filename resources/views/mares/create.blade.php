@@ -1,6 +1,5 @@
 <x-layout>
 
-    <x-flatpickr::style />
 
     <x-slot:heading>
         Création
@@ -8,9 +7,10 @@
 
 
 
-    <script type="module">
 
-        <x-map :markers=$markers></x-map>
+        <script type="module">
+
+        <x-map :markers="$markers"></x-map>
 
         var theMarker;
 
@@ -73,7 +73,7 @@
                         </x-form-field>
 
                         <x-form-field>
-                        <x-flatpickr />
+
                         </x-form-field>
 
                         <x-form-field>
@@ -100,5 +100,5 @@
     </form>
 
 
-<x-flatpickr::script />
+
 </x-layout>

@@ -7,7 +7,7 @@
 
     <script type="module">
 
-    <x-map :markers=$markers></x-map>
+    <x-map :markers="$markers"></x-map>
 
     </script>
 
