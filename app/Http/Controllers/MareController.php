@@ -96,7 +96,7 @@ class MareController extends Controller
         ]);
 
         if (request()->hasFile('picture')) {
-            $picturePath = request()->picture->store('pictures');
+            $picturePath = request()->picture->store('/pictures');
             Picture::create([
                 'path' => $picturePath,
                 'user_id' => Auth()->id(),
