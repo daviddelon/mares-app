@@ -103,7 +103,7 @@ class RoutesTest extends TestCase
          $file = UploadedFile::fake()->image('mare.jpg');
 
 
-         $response = $this->actingAs($user)->post('/mares', ['latitude' => '6.54321','longitude'=>'1.23456','picture'=> $file]);
+         $response = $this->actingAs($user)->post('/mares', ['latitude' => '6.54321','longitude'=>'1.23456','picture'=> $file,'observed_at'=>'2024-01-01 13:37']);
          $response->assertRedirect('/mares');
 
          $this->assertDatabaseHas(Mare::class, ['latitude' => '6.54321','longitude'=>'1.23456']);
