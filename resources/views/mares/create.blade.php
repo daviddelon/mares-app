@@ -1,5 +1,9 @@
 <x-layout>
 
+    @push('flatpickr')
+        <x-flatpickr::style />
+    @endpush
+
 
     <x-slot:heading>
         Création
@@ -54,12 +58,13 @@
 
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-base font-semibold leading-7 text-gray-900">Coordonnées</h2>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <x-form-field>
                             <x-form-label for="latitude">Latitude</x-form-label>
                             <div class="mt-2">
-                                <x-form-input type="text" name="latitude" id="latitude" placeholder="45.33445" required></x-form-input>
+                                <x-form-input type="text" name="latitude" id="latitude" placeholder="45.33445" :value="old('latitude')" required ></x-form-input>
                                 <x-form-error name='latitude'></x-form-error>
                             </div>
                         </x-form-field>
@@ -67,13 +72,18 @@
                         <x-form-field>
                             <x-form-label for="longitude">Longitude</x-form-label>
                             <div class="mt-2">
-                                <x-form-input type="text" name="longitude" id="longitude" placeholder="3.23445" required></x-form-input>
+                                <x-form-input type="text" name="longitude" id="longitude" placeholder="3.23445" :value="old('longitude')" required></x-form-input>
                                 <x-form-error name='longitude'></x-form-error>
                             </div>
                         </x-form-field>
-
+                </div>
+            </div>
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-base font-semibold leading-7 text-gray-900">Photographie</h2>
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <x-form-field>
-
+                            <x-flatpickr clearable :first-day-of-week="1" show-time name="observed_at" :value="old('observed_at')"/>
+                            <x-form-error name='observed_at'></x-form-error>
                         </x-form-field>
 
                         <x-form-field>
@@ -100,5 +110,9 @@
     </form>
 
 
+
+@push('flatpickr')
+    <x-flatpickr::script />
+@endpush
 
 </x-layout>

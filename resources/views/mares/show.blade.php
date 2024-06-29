@@ -11,7 +11,7 @@
 
     @foreach ( $mare->pictures as $picture)
         <li>
-            {{ $picture->user->name }}<img src="/storage/{{ $picture->path }}"></img>
+            {{ $picture->user->name }}, {{ $picture->observed_at }}<img src="/storage/{{ $picture->path }}"></img>
         </li>
 
     @endforeach

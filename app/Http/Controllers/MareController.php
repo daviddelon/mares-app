@@ -79,14 +79,15 @@ class MareController extends Controller
     public function store()
     {
 
+
         request()->validate(
             [
                 'latitude' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,7})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
                 'longitude' => ['required', 'regex:/^(\+|-)?(?:18,0(?:(?:\.0{1,7})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
                 'picture' => [File::types(['png', 'jpg'])],
+                'observed_at' =>['nullable','date_format:Y-m-d H:i']
             ]
         );
-
 
         $mare=Mare::create([
             'latitude' => request('latitude'),
@@ -100,7 +101,7 @@ class MareController extends Controller
                 'path' => $picturePath,
                 'user_id' => Auth()->id(),
                 'mare_id' => $mare->id,
-                'observed_at' => now()
+                'observed_at' => request('observed_at')
             ]);
         }
 
