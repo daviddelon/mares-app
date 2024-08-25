@@ -14,81 +14,39 @@
 
 <body class="h-full">
     <div class="min-h-full">
-        <nav class="bg-gray-700">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 items-center justify-between">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <img class="h-8 w-8" src="/images/mare_garrigue.jpg"
-                                 alt="Mare de Garrigue">
-                        </div>
-                        <div class="hidden md:block">
-                            <div class="ml-10 flex items-baseline space-x-4">
-                                <x-nav-link href="/" :active="request()->is('/')">Accueil</x-nav-link>
-                                <x-nav-link href="/mares" :active="request()->is('mares*')">Carte</x-nav-link>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-4 flex items-center md:ml-6">
-                            @guest
-                                <x-nav-link href="/login" :active="request()->is('login')">S'identifier</x-nav-link>
-                                <x-nav-link href="/register" :active="request()->is('register')">Créer un compte</x-nav-link>
-                            @endguest
+        <nav class="bg-white py-5 px-6 flex flex-wrap justify-between items-center">
 
-                            @auth
-                                    <form class="my-1" method="POST" action="/logout">
-                                        @csrf
-                                        <x-form-button>Se déconnecter</x-form-button>
-                                    </form>
-                            @endauth
-                        </div>
-                    </div>
-                    <div class="-mr-2 flex md:hidden">
-                        <!-- Mobile menu button -->
-                        <button type="button"
-                                class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                aria-controls="mobile-menu" aria-expanded="false">
-                            <span class="absolute -inset-0.5"></span>
-                            <span class="sr-only">Open main menu</span>
-                            <!-- Menu open: "hidden", Menu closed: "block" -->
-                            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-                            </svg>
-                            <!-- Menu open: "block", Menu closed: "hidden" -->
-                            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile menu, show/hide based on menu state. -->
-            <div class="md:hidden" id="mobile-menu">
-                <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+             <a href="#" class="flex-1">
+                <img class="inline h-7" src="/images/mare_garrigue.jpg" alt="Une mare de la Garrigue" />
+              </a>
+              <ul class="order-last flex-[100%] mt-4 md:order-none md:flex-auto md:mt-0 inline-block mx-5">
+                <li class="inline-block mx-5">
                     <x-nav-link href="/" :active="request()->is('/')">Accueil</x-nav-link>
+                </li>
+                <li class="inline-block mx-5">
                     <x-nav-link href="/mares" :active="request()->is('mares*')">Carte</x-nav-link>
-                </div>
-                <div class="border-t border-gray-700 pb-3 pt-4">
-                    <div class="flex items-center px-5">
-                        @guest
-                                <x-nav-link href="/login" :active="request()->is('login')">S'identifier</x-nav-link>
-                                <x-nav-link href="/register" :active="request()->is('register')">Créer un compte</x-nav-link>
-                            @endguest
+                </li>
+              </ul>
 
-                            @auth
-                                    <form method="POST" action="/logout">
-                                        @csrf
-                                        <x-form-button>Se déconnecter</x-form-button>
-                                    </form>
-                            @endauth
-                    </div>
-                </div>
-            </div>
+              <span class="flex-1 text-right">
+                @guest
+                <form class="my-1" method="GET" action="/login">
+                    @csrf
+                    <x-form-button>S'identifier</x-form-button>
+                </form>
+            @endguest
+
+            @auth
+                    <form class="my-1" method="POST" action="/logout">
+                        @csrf
+                        <x-form-button>Se déconnecter</x-form-button>
+                    </form>
+            @endauth
+
+              </span>
+
+
+
         </nav>
 
         <header class="bg-white shadow">
@@ -102,7 +60,7 @@
         </header>
 
         <main>
-            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            <div class="mx-auto py-6 sm:px-6 lg:px-8">
                 {{ $slot }}
             </div>
         </main>
