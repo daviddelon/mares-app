@@ -12,19 +12,22 @@ Route::get('/', function () {
 });
 
 
-//  Comme l'affichage de la liste des mares est public, on le sort de controle d'identification
-Route::get('/', [MareController::class, 'index']);
-Route::get('/mares/{mare}', [MareController::class, 'show']);
+
+
+ // Toutes les routes pour mares necessitent une authentification, sauf l'index et shown
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::resource('mares', MareController::class)->except(['index','show']);
+});
 
 Route::get('/mares', function () {
     return redirect('/');
 });
 
-Route::middleware(['auth'])->group(function () {
-    // Toutes les routes pour mares necessitent une authentification, sauf l'index et shown
-    Route::resource('mares', MareController::class)->except(['index','show']);
-});
 
+Route::get('/', [MareController::class, 'index']);
+Route::get('/mares/{mare}', [MareController::class, 'show']);
 
 
 
