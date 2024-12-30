@@ -9,61 +9,38 @@ use Illuminate\Validation\Rules\File;
 class MareController extends Controller
 {
     //
+    private function prepareMarkers() {
+        return Mare::with(['user:id,name', 'pictures:id,mare_id,path'])->get()->map(function ($mare) {
+            $marker = [
+                'latlng' => [$mare->latitude, $mare->longitude],
+                'mare_id' => $mare->id,
+            ];
 
-    public function index()
-    {
-
-        $mares = Mare::with('user')->latest()->paginate(3); // prevent lazy loading
-
-
-
-        $markers = Mare::with(['user','pictures'])->get()->map(function ($mare) {
-
-
-            $path='';
-            foreach ($mare->pictures as $picture) {
-                $path=$picture->path;
+            if ($mare->pictures->isNotEmpty()) {
+                $marker['picture'] = $mare->pictures->first()->path;
             }
 
-            return [
-                    'latlng' => [$mare->latitude, $mare->longitude],
-                    'content' => $mare->user->name,
-                    'mare_id' => $mare->id,
-                    'picture' => $path
-                ];
+            return $marker;
         })->values();
+    }
 
-
+    public function index() {
+        $markers = $this->prepareMarkers();
 
         return view('mares.index', [
-            'mares' => $mares,'markers'=>$markers
+            'markers' => $markers
         ]);
     }
 
-    public function create()
-    {
 
-        $markers = Mare::with('user')->get()->map(function ($mare) {
-
-            return [
-                    'latlng' => [$mare->latitude, $mare->longitude],
-                    'content' => $mare->user->name
-
-
-                ];
-        })->values();
-
-
-
-
-
+    public function create() {
+        $markers = $this->prepareMarkers();
 
         return view('mares.create', [
-            'markers'=>$markers
+            'markers' => $markers
         ]);
-
-
     }
+
 
     public function show(Mare $mare)
     {
@@ -122,8 +99,7 @@ class MareController extends Controller
         ]);
     }
 
-    public function update(Mare $mare)
-    {
+    public function update(Mare $mare) {
 
         // https://gist.github.com/arubacao/b5683b1dab4e4a47ee18fd55d9efbdd1 Latitude Longitude Regular Expression Validation PHP
 
@@ -144,8 +120,7 @@ class MareController extends Controller
         return redirect('/mares/' . $mare->id);
     }
 
-    public function destroy(Mare $mare)
-    {
+    public function destroy(Mare $mare) {
 
 
         $mare->delete();

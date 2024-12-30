@@ -16,8 +16,8 @@ export function map_index(markers) {
 
     markers.map(function (item) {
 
-        if (item.picture != '') {
-            L.marker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '"><img src="storage/' + item.picture + '"/></a>');
+        if ('picture' in item ) {
+            L.marker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '"><img src="/storage/' + item.picture + '"/></a>');
         }
         else {
             L.marker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '">'+ item.mare_id + '</a>');
