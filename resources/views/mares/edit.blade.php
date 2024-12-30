@@ -1,85 +1,125 @@
 <x-layout>
 
+    @push('flatpickr')
+        <x-flatpickr::style />
+    @endpush
+
+
     <x-slot:heading>
-        Modification de la mare {{  $mare->id }}
+        Modification de la mare {{ $mare->id }}
     </x-slot:heading>
 
 
-    <form method="POST" action="/mares/{{ $mare->id }}">
+    <script type="module">
+        <x-map :markers="$markers"> </x-map>
+
+
+
+
+        var mare = {!! json_encode($mare) !!};
+
+        var theMarker = L.marker([mare.latitude, mare.longitude], {
+                'draggable': true
+        }).addTo(map);
+
+
+        theMarker.on('move', function(e) {
+                var latitude = e.latlng.lat.toString().substring(0, 15);
+                var longitude = e.latlng.lng.toString().substring(0, 15);
+
+                document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
+                document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
+
+
+        });
+
+
+    </script>
+
+
+
+
+    <form method="POST" action="/mares" enctype="multipart/form-data">
 
         @csrf
-        @method('PATCH')
 
-        <div class="space-y-12">
-            <div class="border-b border-gray-900/10 pb-12">
-
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div class="sm:col-span-4">
-                        <label for="latitude" class="block text-sm font-medium leading-6 text-gray-900">Latitude</label>
-                        <div class="mt-2">
-                            <div
-                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                <input type="text" name="latitude" id="latitude"
-                                    class="block flex-1 border-0 bg-transparent py-1.5 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="43.25513" value="{{ $mare->latitude }}" required>
-                            </div>
-
-                            @error('latitude')
-                                <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
-                            @enderror
-
-                        </div>
-                    </div>
-                    <div class="sm:col-span-4">
-                        <label for="longitude"
-                            class="block text-sm font-medium leading-6 text-gray-900">Longitude</label>
-                        <div class="mt-2">
-                            <div
-                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                <input type="text" name="longitude" id="longitude"
-                                    class="block flex-1 border-0 bg-transparent py-1.5 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="3.22167" value={{ $mare->longitude }} required>
-                            </div>
-                            @error('longitude')
-                                <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
-                            @enderror
-
-                        </div>
-                    </div>
+        <div class="container w-full h-screen flex flex-col md:flex-row">
 
 
 
+            <div class="mx-5 border-2 p-2 split basis-2/3">
+                <div class="h-full md:h-2/3" id="map">
                 </div>
             </div>
 
 
+            <div class="mx-5 border-2 p-2 split basis-1/3">
 
 
-        </div>
+                <div class="flex gap-2 mt-4">
+                    <div class="w-full">
+                        <x-form-label for="latitude">Latitude</x-form-label>
+                        <x-form-input class="w-full text-xl px-4 py-2 mt-1"
+                                      type="text" name="latitude" id="latitude" placeholder="45.33445" value="{{ $mare->latitude }}" required>
+                        </x-form-input>
+                        <x-form-error name='latitude'></x-form-error>
 
-        <div class="mt-6 flex items-center justify-between gap-x-6">
-            <div class="flex items-center">
-                <button form="delete-form" class="text-red-500 text-sm font-bold">Delete</button>
-            </div>
-            <div class="flex items-center gap-x-6">
+                    </div>
+                    <div class="w-full">
+                        <x-form-label for="longitude">Longitude</x-form-label>
+                        <x-form-input class="w-full text-xl px-4 py-2 mt-1"
+                                      type="text" name="longitude" id="longitude" placeholder="3.23445" value="{{ $mare->longitude }}" required>
+                        </x-form-input>
+                        <x-form-error name='longitude'></x-form-error>
 
-            <a  href="/mares/{{ $mare->id }}" class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
 
-                <div>
+                    </div>
+                </div>
+
+
+
+                <div class="flex gap-2 mt-4">
+                    <div class="w-full">
+
+                        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                            <x-flatpickr class="!block !flex-1 !border-0 !bg-transparent !py-1.5 !px-3 !pl-1 !text-gray-900 !placeholder:text-gray-400 !focus:ring-0 sm:text-sm sm:leading-6 !w-full" first-day-of-week="1" show-time name="observed_at" value="{{ $mare->observed_at }}" />
+                        </div>
+                        <x-form-error name='observed_at'></x-form-error>
+
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <div class="w-full">
+                    <x-form-field>
+                        <div class="mt-2">
+                            <x-form-label for="picture">Photo d'accompagnement</x-form-label>
+                            <x-form-input type="file" name="picture" id="picture"></x-form-input>
+                            <x-form-error name='picture'></x-form-error>
+                        </div>
+                    </x-form-field>
+                    </div>
+                 </div>
+
+                 <div class="mt-6 flex items-center justify-start gap-x-6">
+                    <a href="/mares" class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
                     <button type="submit"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Modifier</button>
                 </div>
-            </div>
+
+
+
+
+
+
         </div>
+
+
     </form>
 
-    <form method="POST" action="/mares/{{ $mare->id }}" class="hidden" id="delete-form">
-        @csrf
-        @method('DELETE')
-
-      </form>
 
 
-
+    @push('flatpickr')
+        <x-flatpickr::script />
+    @endpush
 
 </x-layout>

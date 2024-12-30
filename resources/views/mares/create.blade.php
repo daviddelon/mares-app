@@ -11,7 +11,6 @@
 
 
 
-
     <script type="module">
         <x-map :markers="$markers"> </x-map>
 

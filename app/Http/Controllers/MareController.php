@@ -42,6 +42,25 @@ class MareController extends Controller
     }
 
 
+    public function edit(Mare $mare)
+    {
+
+        $markers = $this->prepareMarkers();
+
+        // Recherche et suppression du marker en cours d'edition : il ne sera pas affiche, ce qui permettra ensuite de le poser sur la carte et de le deplacer
+        // On aurait pu faire autrement cote javascript, mais cette solution semble la plus econome, le mieux serait meme de revoir preparemarker et de
+        // lui passer en parametre le marker a ne pas stocker, ce qui enlevera une etape
+        $key=array_search($mare->id, array_column($markers->toArray(), 'mare_id'));
+        $markers->forget($key);
+
+
+        return view('mares.edit', [
+            'markers' => $markers,
+            'mare' => $mare
+        ]);
+    }
+
+
     public function show(Mare $mare)
     {
 
@@ -51,6 +70,9 @@ class MareController extends Controller
             'mare' => $mare
         ]);
     }
+
+
+
 
 
     public function store()
@@ -88,16 +110,6 @@ class MareController extends Controller
         return redirect('/mares');
     }
 
-
-    public function edit(Mare $mare)
-    {
-
-
-
-        return view('mares.edit', [
-            'mare' => $mare
-        ]);
-    }
 
     public function update(Mare $mare) {
 
