@@ -8,23 +8,32 @@ use Illuminate\Validation\Rules\File;
 
 class MareController extends Controller
 {
-    //
-    private function prepareMarkers() {
-        return Mare::with(['user:id,name', 'pictures:id,mare_id,path'])->get()->map(function ($mare) {
-            $marker = [
-                'latlng' => [$mare->latitude, $mare->longitude],
-                'mare_id' => $mare->id,
-            ];
 
-            if ($mare->pictures->isNotEmpty()) {
-                $marker['picture'] = $mare->pictures->first()->path;
+    private function prepareMarkers($mare_id=null) {
+
+        // Lors d'une modificiation un identifiant mare est transmis : on ne souhaite pas qu'il apparaisse dans la collection
+        // des markers car il ne faut pas l'afficher comme marker fixe mais comme marker deplacable
+
+        return Mare::with(['user:id,name', 'pictures:id,mare_id,path'])->get()->map(function ($mare) use ($mare_id) {
+
+            if ($mare_id != $mare->id) {
+                $marker = [
+                    'latlng' => [$mare->latitude, $mare->longitude],
+                    'mare_id' => $mare->id,
+                ];
+
+                if ($mare->pictures->isNotEmpty()) {
+                    $marker['picture'] = $mare->pictures->first()->path;
+                }
+
+                return $marker;
             }
-
-            return $marker;
-        })->values();
+        })->filter()->values(); // filter pour supprimer la valeur null liee a l'identifiant mare transmis
     }
 
     public function index() {
+
+        // On affiche tous les markers
         $markers = $this->prepareMarkers();
 
         return view('mares.index', [
@@ -34,6 +43,9 @@ class MareController extends Controller
 
 
     public function create() {
+
+        // On affiche tous les markers
+
         $markers = $this->prepareMarkers();
 
         return view('mares.create', [
@@ -45,14 +57,8 @@ class MareController extends Controller
     public function edit(Mare $mare)
     {
 
-        $markers = $this->prepareMarkers();
-
-        // Recherche et suppression du marker en cours d'edition : il ne sera pas affiche, ce qui permettra ensuite de le poser sur la carte et de le deplacer
-        // On aurait pu faire autrement cote javascript, mais cette solution semble la plus econome, le mieux serait meme de revoir preparemarker et de
-        // lui passer en parametre le marker a ne pas stocker, ce qui enlevera une etape
-        $key=array_search($mare->id, array_column($markers->toArray(), 'mare_id'));
-        $markers->forget($key);
-
+        // On affiche tous les markers sauf le marker modifier, pour pouvoir le deplacer
+        $markers = $this->prepareMarkers($mare->id);
 
         return view('mares.edit', [
             'markers' => $markers,
