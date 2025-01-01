@@ -16,7 +16,7 @@
 
 
 
-        var mare = {!! json_encode($mare) !!};
+        const mare = {!! json_encode($mare) !!};
 
         var theMarker = L.marker([mare.latitude, mare.longitude], {
                 'draggable': true
@@ -24,11 +24,14 @@
 
 
         theMarker.on('move', function(e) {
-                var latitude = e.latlng.lat.toString().substring(0, 15);
-                var longitude = e.latlng.lng.toString().substring(0, 15);
 
-                document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
-                document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
+            const latlng = e.latlng;
+
+            const latitude = latlng.lat.toString().substring(0, 15);
+            const longitude = latlng.lng.toString().substring(0, 15);
+
+            document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
+            document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
 
 
         });

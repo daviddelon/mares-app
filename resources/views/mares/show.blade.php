@@ -5,13 +5,13 @@
         Mare
     </x-slot:heading>
 
-    {{ $mare->id}}  au coordonnées {{ $mare->latitude }}, {{  $mare->longitude }} observée par {{ $mare->user->name}}
+    {{ $mare->id}}  au coordonnées {{ $mare->latitude }}, {{  $mare->longitude }} créée par {{ $mare->user->name}}
 
     <ul>
 
     @foreach ( $mare->pictures as $picture)
         <li>
-            {{ $picture->user->name }}, {{ $picture->observed_at }}<img src="/storage/{{ $picture->path }}"></img>
+            Photographie par {{ $picture->user->name }} le {{ $picture->observed_at }}<img src="/storage/{{ $picture->path }}"></img>
         </li>
 
     @endforeach

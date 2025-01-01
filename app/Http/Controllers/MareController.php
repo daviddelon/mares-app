@@ -64,6 +64,8 @@ class MareController extends Controller
             'markers' => $markers,
             'mare' => $mare
         ]);
+
+
     }
 
 
@@ -125,7 +127,9 @@ class MareController extends Controller
         request()->validate(
             [
                 'latitude' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,7})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
-                'longitude' => ['required', 'regex:/^(\+|-)?(?:180(?:(?:\.0{1,7})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,7})?))$/']
+                'longitude' => ['required', 'regex:/^(\+|-)?(?:180(?:(?:\.0{1,7})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,7})?))$/'],
+                'picture' => [File::types(['png', 'jpg'])],
+                'observed_at' =>['nullable','date_format:Y-m-d H:i']
             ]
         );
 
@@ -134,6 +138,16 @@ class MareController extends Controller
             'latitude' => request('latitude'),
             'longitude' => request('longitude')
         ]);
+
+        if (request()->hasFile('picture')) {
+            $picturePath = request()->picture->store('pictures','public');
+            Picture::create([
+                'path' => $picturePath,
+                'user_id' => Auth()->id(),
+                'mare_id' => $mare->id,
+                'observed_at' => request('observed_at')
+            ]);
+        }
 
         return redirect('/mares/' . $mare->id);
     }

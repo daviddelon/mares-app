@@ -16,33 +16,30 @@
 
         var theMarker;
 
+        function updateLatLng(latlng) {
+
+            const latitude = parseFloat(latlng.lat.toString().substring(0, 15)).toFixed(7);
+            const longitude = parseFloat(latlng.lng.toString().substring(0, 15)).toFixed(7);
+
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+        }
+
+
         map.on('click', function(e) {
-            var latitude = e.latlng.lat.toString().substring(0, 15);
-            var longitude = e.latlng.lng.toString().substring(0, 15);
+            const latlng = e.latlng;
 
-            if (theMarker != undefined) {
+            if (theMarker) {
                 map.removeLayer(theMarker);
-            };
+            }
+            else {
+                theMarker = L.marker([latlng.lat, latlng.lng], { draggable: true }).addTo(map);
+                theMarker.on('move', function(event) {
+                    updateLatLng(event.latlng);
+                });
+            }
 
-
-            theMarker = L.marker([latitude, longitude], {
-                'draggable': true
-            }).addTo(map);
-
-
-            theMarker.on('move', function(e) {
-                latitude = e.latlng.lat.toString().substring(0, 15);
-                longitude = e.latlng.lng.toString().substring(0, 15);
-
-                document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
-                document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
-
-
-            });
-
-            document.getElementById('latitude').value = parseFloat(latitude).toFixed(7);
-            document.getElementById('longitude').value = parseFloat(longitude).toFixed(7);
-
+            updateLatLng(latlng);
 
 
         });
