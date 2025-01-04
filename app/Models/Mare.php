@@ -21,6 +21,10 @@ class Mare extends Model
         return $this->hasMany(Picture::class);
     }
 
+    public function kvs() {
+        return $this->hasMany(Kv::class);
+    }
+
 
 
 }

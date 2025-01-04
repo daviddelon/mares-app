@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::preventLazyLoading();
+        // This can help prevent unexpected errors during local development when attempting to set an attribute that has not been added to the model's fillable array
+        Model::preventSilentlyDiscardingAttributes();
         //
     }
 }

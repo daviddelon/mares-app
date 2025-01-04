@@ -32,12 +32,13 @@
             if (theMarker) {
                 map.removeLayer(theMarker);
             }
-            else {
-                theMarker = L.marker([latlng.lat, latlng.lng], { draggable: true }).addTo(map);
-                theMarker.on('move', function(event) {
-                    updateLatLng(event.latlng);
-                });
-            }
+
+
+            theMarker = L.marker([latlng.lat, latlng.lng], { draggable: true }).addTo(map);
+            theMarker.on('move', function(event) {
+                updateLatLng(event.latlng);
+            });
+
 
             updateLatLng(latlng);
 
