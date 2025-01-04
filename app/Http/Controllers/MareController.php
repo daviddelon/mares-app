@@ -97,7 +97,7 @@ class MareController extends Controller
     public function show(Mare $mare)
     {
 
-        $mare = Mare::with(['user','pictures','kvs'])->find($mare->id);
+       // $mare = Mare::with(['user','pictures','kvs'])->find($mare->id);
 
         return view('mares.show', [
             'mare' => $mare
