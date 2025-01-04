@@ -72,7 +72,7 @@ class MareController extends Controller
         // On affiche tous les markers sauf le marker modifie, pour pouvoir le deplacer
         $markers = $this->prepareMarkers($mare->id);
 
-        $mare = Mare::with(['user','pictures','kvs'])->find($mare->id);
+        $mare = Mare::with(['pictures.user','kvs'])->find($mare->id);
 
         $name = null;
 
@@ -97,7 +97,9 @@ class MareController extends Controller
     public function show(Mare $mare)
     {
 
-       // $mare = Mare::with(['user','pictures','kvs'])->find($mare->id);
+
+        $mare = Mare::with(['pictures.user','kvs'])->find($mare->id);
+
 
         return view('mares.show', [
             'mare' => $mare
