@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-
+use App\Models\Kv;
 use App\Models\Mare;
 use App\Models\Picture;
 use App\Models\User;
@@ -24,4 +24,16 @@ class ModelsTest extends TestCase
         $this->assertTrue($picture->mare->id==$mare->id);
 
    }
+
+   public function test_kv_model_is_working() {
+
+    // Create key from kv factory and check belongsto relationship
+
+    $user = User::factory()->create();
+    $mare = Mare::factory()->create(['user_id'=>$user->id]);
+    $name = Kv::factory()->create(['user_id'=>$user->id,'mare_id'=>$mare->id]);
+    $this->assertTrue($name->user->id==$user->id);
+    $this->assertTrue($name->mare->id==$mare->id);
+
+}
 }

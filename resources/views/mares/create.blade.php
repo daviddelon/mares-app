@@ -87,6 +87,20 @@
                 </div>
 
 
+                <div class="flex gap-2 mt-4">
+                    <div class="w-full">
+                        <x-form-label for="name">Nom</x-form-label>
+                        <x-form-input class="w-full text-xl px-4 py-2 mt-1"
+                                      type="text" name="name" id="name" :value="old('name')" >
+                        </x-form-input>
+                        <x-form-error name="name"></x-form-error>
+
+
+                    </div>
+
+                </div>
+
+
 
                 <div class="flex gap-2 mt-4">
                     <div class="w-full">

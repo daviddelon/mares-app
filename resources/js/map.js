@@ -18,12 +18,16 @@ export function map_index(markers) {
 
 
 
-        if ('picture' in item ) {
-
-            L.circleMarker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '"><img src="/storage/' + item.picture + '"/></a>');
+        if ('name' in item ) {
+            L.circleMarker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '">'+ item.name + '</a>');
         }
         else {
-            L.circleMarker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '">'+ item.mare_id + '</a>');
+            if ('picture' in item ) {
+                L.circleMarker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '"><img src="/storage/' + item.picture + '"/></a>');
+            }
+            else {
+                L.circleMarker(item.latlng).addTo(map).bindPopup('<a href="/mares/' + item.mare_id + '">'+ item.mare_id + '</a>');
+            }
         }
 
     });

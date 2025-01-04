@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kv', function (Blueprint $table) {
+        Schema::create('kvs', function (Blueprint $table) {
             $table->id();
-            $table->string('key',32);
-            $table->string('value');
+            $table->string('identifier',32);
+            $table->string('content'); // 255
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Mare::class)->constrained();
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kv');
+        Schema::dropIfExists('kvs');
     }
 };

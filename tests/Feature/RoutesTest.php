@@ -36,7 +36,7 @@ class RoutesTest extends TestCase
 
         // Edit
         $mare = Mare::factory()->create();
-        $response = $this->get('/mares/'.$mare->id);
+        $response = $this->get('/mares/'.$mare->id.'/edit');
         $response->assertRedirect('/login');
 
         // Destroy
@@ -51,7 +51,7 @@ class RoutesTest extends TestCase
 
         // Index
         $response = $this->get('/mares');
-        $response->assertOk();
+        $response->assertRedirect('/');
 
 
         $user = User::factory()->create();

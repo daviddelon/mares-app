@@ -40,8 +40,6 @@
     </script>
 
 
-
-
     <form method="POST" action="/mares/{{ $mare->id }}" enctype="multipart/form-data">
 
         @csrf
@@ -80,13 +78,25 @@
                     </div>
                 </div>
 
+                <div class="flex gap-2 mt-4">
+                    <div class="w-full">
+                        <x-form-label for="name">Nom</x-form-label>
+                        <x-form-input class="w-full text-xl px-4 py-2 mt-1"
+                                      type="text" name="name" id="name" value="{{ $name ?: '' }}" >
+                        </x-form-input>
+                        <x-form-error name="name"></x-form-error>
+
+
+                    </div>
+
+                </div>
 
 
                 <div class="flex gap-2 mt-4">
                     <div class="w-full">
 
                         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                            <x-flatpickr class="!block !flex-1 !border-0 !bg-transparent !py-1.5 !px-3 !pl-1 !text-gray-900 !placeholder:text-gray-400 !focus:ring-0 sm:text-sm sm:leading-6 !w-full" first-day-of-week="1" show-time name="observed_at" value="{{ $mare->observed_at }}" />
+                            <x-flatpickr class="!block !flex-1 !border-0 !bg-transparent !py-1.5 !px-3 !pl-1 !text-gray-900 !placeholder:text-gray-400 !focus:ring-0 sm:text-sm sm:leading-6 !w-full" first-day-of-week="1" show-time name="observed_at" :value="old('observed_at',now())" />
                         </div>
                         <x-form-error name='observed_at'></x-form-error>
 
