@@ -6,7 +6,7 @@
 
 
     <x-slot:heading>
-        Création
+        Nouvelle Mare
     </x-slot:heading>
 
 
