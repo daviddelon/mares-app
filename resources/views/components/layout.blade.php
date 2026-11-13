@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mares des Garrigues</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @stack('flatpickr')
+
 
 </head>
 

@@ -1,9 +1,5 @@
 <x-layout>
 
-    @push('flatpickr')
-        <x-flatpickr::style />
-    @endpush
-
 
     <x-slot:heading>
         Nouvelle Mare
@@ -106,7 +102,6 @@
                     <div class="w-full">
 
                         <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                              <x-flatpickr class="!block !flex-1 !border-0 !bg-transparent !py-1.5 !px-3 !pl-1 !text-gray-900 !placeholder:text-gray-400 !focus:ring-0 sm:text-sm sm:leading-6 !w-full" first-day-of-week="1" show-time name="observed_at" :value="old('observed_at',now())" />
                         </div>
                         <x-form-error name="observed_at"></x-form-error>
 
@@ -142,8 +137,5 @@
 
 
 
-    @push('flatpickr')
-        <x-flatpickr::script />
-    @endpush
 
 </x-layout>
